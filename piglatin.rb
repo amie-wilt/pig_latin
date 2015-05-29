@@ -19,8 +19,9 @@ class PigLatin
     else
       if capped # but if it's capped
         new_word = word[length..-1] + suffix
-        new_word = new_word.downcase # upcase first letter of the translated word
-        new_word[0] = new_word[0].upcase # return the new word with first letter upcased
+        # new_word = new_word.upcase # upcase first letter of the translated word
+        # # new_word[0] = new_word[0].upcase # return the new word with first letter upcased
+        new_word
       else # if it's not capped
         word[length..-1] + suffix # return the unmodified translated word
       end
