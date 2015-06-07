@@ -5,26 +5,28 @@ class PigLatin
   end
 
   def self.translate_word(word)
+    caps = word =~ /^[A-Z]/
+    punct = word =~ /[^\w\s\d]/
+    length = word.index(/[aeiou]/i)
 
-    capped = word =~ /[A-Z]/
-    num = word =~ /[0-9]/
+    if punct
+      end_mark = word[-1]
+      word.gsub!(/[^\w\s\d]/, '')
+    end
 
-    length = word.index(/[aeiou]/)
-    prefix = word.slice(0, length)
-    suffix = length == 0 ? 'yay' : prefix + 'ay'
-    suffix.downcase!
+    if length
+      prefix = word.slice(0, length)
+      suffix = length == 0 ? 'yay' : prefix + 'ay'
+      suffix.downcase!
+      new_word = word[length..-1] + suffix
+      new_word.capitalize! if caps
 
-    if num # if word is a number
-      word # return the word unmodified => number
-    else
-      if capped # but if it's capped
-        new_word = word[length..-1] + suffix
-        # new_word = new_word.upcase # upcase first letter of the translated word
-        # # new_word[0] = new_word[0].upcase # return the new word with first letter upcased
-        new_word
-      else # if it's not capped
-        word[length..-1] + suffix # return the unmodified translated word
+      if punct
+        new_word.insert(-1, end_mark).split
       end
+      new_word
+    else
+      word
     end
   end
 end
